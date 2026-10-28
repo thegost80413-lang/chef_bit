@@ -1,0 +1,1704 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>شيف البيت</title>
+
+<!-- إعدادات تطبيق الويب PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#08080A">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="شيف البيت">
+<link rel="apple-touch-icon" href="icon-192.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #08080A;
+  --surface: #141418;
+  --surface-subtle: #1C1C24;
+  --border: #262630;
+  --primary: #FF5A36;
+  --primary-hover: #ff704d;
+  --primary-soft: rgba(255, 90, 54, 0.15);
+  --text: #F5F5F7;
+  --text-muted: #8E8E98;
+  --text-dim: #60606C;
+  --green: #2ED573;
+  --yellow: #FFA801;
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --radius-sm: 8px;
+  box-sizing: border-box;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: "Readex Pro", -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.5;
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 90px);
+  padding-top: env(safe-area-inset-top, 0px);
+  user-select: none;
+}
+
+/* Header & Tabs */
+header.app-top {
+  padding: 14px 20px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  background: rgba(8, 8, 10, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 40;
+}
+.top-nav {
+  display: flex;
+  gap: 28px;
+}
+.top-nav button {
+  background: none;
+  border: 0;
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding-bottom: 6px;
+  position: relative;
+  transition: all 0.2s ease;
+}
+.top-nav button.active {
+  color: var(--primary);
+}
+.top-nav button.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  height: 2.5px;
+  background: var(--primary);
+  border-radius: 4px;
+}
+
+main {
+  max-width: 540px;
+  margin: 0 auto;
+  padding: 12px 18px;
+}
+
+/* Hero Cards */
+.hero-card {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  margin-bottom: 26px;
+}
+.hero-img-box {
+  width: 100%;
+  height: 310px;
+  position: relative;
+  background: #181820;
+}
+.hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.hero-badges {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: flex;
+  gap: 8px;
+}
+.badge {
+  background: rgba(20, 20, 24, 0.8);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #fff;
+}
+.like-badge {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  background: rgba(20, 20, 24, 0.85);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+.like-badge.liked {
+  color: var(--primary);
+}
+.hero-info {
+  padding: 16px;
+}
+.hero-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #fff;
+}
+.author-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+.author-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--yellow);
+  display: grid;
+  place-items: center;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #000;
+}
+.author-name {
+  font-size: 0.85rem;
+  color: var(--primary);
+  font-weight: 500;
+}
+
+/* Dots Indicator */
+.dots-indicator {
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+  margin: 14px 0 24px;
+}
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--text-dim);
+}
+.dot.active {
+  background: var(--primary);
+}
+
+/* Section Headings */
+.sec-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 22px 0 14px;
+}
+.sec-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff;
+}
+.sec-link {
+  color: var(--primary);
+  font-size: 0.88rem;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+/* Horizontal Scroll List */
+.h-scroll {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scrollbar-width: none;
+}
+.h-scroll::-webkit-scrollbar {
+  display: none;
+}
+.card-sm {
+  flex: 0 0 240px;
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.card-sm:active {
+  transform: scale(0.98);
+}
+.card-sm-img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  display: block;
+  background: #181820;
+}
+.card-sm-body {
+  padding: 12px;
+}
+.card-sm-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.card-sm-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* Search Input */
+.search-box {
+  position: relative;
+  margin-bottom: 20px;
+}
+.search-input {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 13px 44px 13px 18px;
+  color: #fff;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.search-input:focus {
+  border-color: var(--primary);
+}
+.search-icon {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: 1.1rem;
+}
+
+/* Week Planner Styles */
+.day-plan-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.day-name {
+  font-size: 1rem;
+  font-weight: 700;
+  width: 75px;
+  flex-shrink: 0;
+  color: #fff;
+}
+.day-dish-btn {
+  flex: 1;
+  background: var(--surface-subtle);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  text-align: right;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.day-dish-btn.selected {
+  background: rgba(255, 90, 54, 0.08);
+  border-color: rgba(255, 90, 54, 0.4);
+  color: #fff;
+  font-weight: 600;
+}
+.people-stepper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--surface-subtle);
+  border-radius: var(--radius-sm);
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+}
+.stepper-btn {
+  background: none;
+  border: 0;
+  color: #fff;
+  font-size: 1.1rem;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+.stepper-num {
+  font-size: 0.9rem;
+  font-weight: 700;
+  min-width: 16px;
+  text-align: center;
+}
+
+/* Shopping List Styles */
+.shop-group {
+  margin-bottom: 22px;
+}
+.shop-group-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.shop-list {
+  list-style: none;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.shop-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.shop-item:last-child {
+  border-bottom: 0;
+}
+.shop-check-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+.shop-check-label input {
+  width: 19px;
+  height: 19px;
+  accent-color: var(--primary);
+}
+.shop-check-label.checked span {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+.shop-qty {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.price-card {
+  background: linear-gradient(135deg, #1C1C26, #14141C);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  margin: 20px 0;
+  text-align: center;
+}
+.price-value {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin-top: 4px;
+}
+
+/* Profile Screen */
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin: 16px 0 28px;
+}
+.big-avatar {
+  width: 74px;
+  height: 74px;
+  border-radius: 50%;
+  background: var(--yellow);
+  color: #000;
+  font-size: 2.2rem;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+}
+.user-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+.user-badge {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+.edit-prof-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: #fff;
+  border-radius: 999px;
+  padding: 4px 16px;
+  font-size: 0.82rem;
+  margin-top: 8px;
+  cursor: pointer;
+}
+
+.plus-banner {
+  background: linear-gradient(135deg, #2A2016 0%, #171720 100%);
+  border: 1px solid rgba(255, 168, 1, 0.3);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin-bottom: 28px;
+  position: relative;
+  overflow: hidden;
+}
+.plus-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--yellow);
+  color: #000;
+  font-weight: 800;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+}
+.plus-btn {
+  background: #fff;
+  color: #000;
+  font-weight: 700;
+  border: 0;
+  border-radius: 999px;
+  padding: 8px 22px;
+  margin-top: 14px;
+  cursor: pointer;
+}
+
+.menu-group {
+  margin-bottom: 24px;
+}
+.menu-group-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+}
+.menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+.menu-item-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Cook Mode Screen */
+.cook-container {
+  padding: 6px 0;
+}
+.cook-progress {
+  height: 5px;
+  background: var(--surface-subtle);
+  border-radius: 10px;
+  margin: 12px 0 20px;
+  overflow: hidden;
+}
+.cook-progress-bar {
+  height: 100%;
+  background: var(--primary);
+  transition: width 0.3s ease;
+}
+.cook-step-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px 20px;
+  margin-bottom: 20px;
+  position: relative;
+}
+.step-number {
+  font-size: 3rem;
+  font-weight: 900;
+  color: var(--primary);
+  line-height: 1;
+  margin-bottom: 12px;
+}
+.step-text {
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: #fff;
+  margin-bottom: 16px;
+}
+.step-tip {
+  background: rgba(255, 168, 1, 0.1);
+  border-right: 3px solid var(--yellow);
+  padding: 10px 14px;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-size: 0.88rem;
+  color: #ffeaa7;
+  margin-top: 14px;
+}
+.timer-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--surface-subtle);
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  margin-top: 16px;
+}
+.timer-clock {
+  font-size: 1.9rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: #fff;
+  direction: ltr;
+}
+.timer-btn {
+  background: var(--primary);
+  color: #fff;
+  border: 0;
+  padding: 8px 18px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Primary Button */
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+  border: 0;
+  border-radius: var(--radius-md);
+  padding: 14px 20px;
+  font-size: 1rem;
+  font-weight: 700;
+  width: 100%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: opacity 0.2s;
+}
+.btn-primary:active {
+  opacity: 0.9;
+}
+.btn-secondary {
+  background: var(--surface-subtle);
+  border: 1px solid var(--border);
+  color: #fff;
+  border-radius: var(--radius-md);
+  padding: 12px 18px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Modal Selector */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(10px);
+  z-index: 100;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+.modal-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+.modal-content {
+  background: #14141A;
+  border-radius: 28px 28px 0 0;
+  border: 1px solid var(--border);
+  width: 100%;
+  max-width: 560px;
+  max-height: 82vh;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.modal-overlay.open .modal-content {
+  transform: translateY(0);
+}
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+.modal-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+.modal-close {
+  background: none;
+  border: 0;
+  color: var(--text-muted);
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+.modal-list {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.modal-dish-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--surface-subtle);
+  padding: 10px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  text-align: right;
+  color: #fff;
+}
+.modal-dish-img {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+}
+
+/* Floating Action Button */
+.fab-btn {
+  position: fixed;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 82px);
+  left: 20px;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  border: 0;
+  display: grid;
+  place-items: center;
+  font-size: 1.7rem;
+  font-weight: 300;
+  box-shadow: 0 8px 24px rgba(255, 90, 54, 0.4);
+  cursor: pointer;
+  z-index: 45;
+  transition: transform 0.2s;
+}
+.fab-btn:active {
+  transform: scale(0.92);
+}
+
+/* Bottom Tab Bar */
+nav.tab-bar {
+  position: fixed;
+  inset: auto 0 0 0;
+  background: rgba(14, 14, 18, 0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-around;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-top: 6px;
+  z-index: 50;
+}
+.tab-btn {
+  background: none;
+  border: 0;
+  color: var(--text-dim);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 6px 12px 8px;
+  transition: color 0.15s ease;
+  min-width: 60px;
+}
+.tab-btn svg {
+  width: 23px;
+  height: 23px;
+  fill: currentColor;
+}
+.tab-btn.active {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* Toast */
+#toast {
+  position: fixed;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 86px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(28, 28, 36, 0.95);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  display: none;
+  z-index: 120;
+  white-space: nowrap;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+}
+</style>
+</head>
+<body>
+
+<header class="app-top" id="appHeader">
+  <div class="top-nav">
+    <button class="active" onclick="switchSubTab(0)" id="subTab0">اختيارات المحرر</button>
+    <button onclick="switchSubTab(1)" id="subTab1">لك أنت</button>
+  </div>
+</header>
+
+<main id="mainView"></main>
+
+<button class="fab-btn" onclick="openAddRecipe()" id="fabBtn" aria-label="إضافة">+</button>
+
+<div id="toast"></div>
+
+<!-- Modal for Week dish selection -->
+<div class="modal-overlay" id="dishModal" onclick="closeModal(event)">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle">اختر وجبة اليوم</div>
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+    </div>
+    <div class="modal-list" id="modalDishList"></div>
+  </div>
+</div>
+
+<!-- Bottom Navigation Bar -->
+<nav class="tab-bar">
+  <button class="tab-btn active" onclick="navigate('home')">
+    <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+    <span>الرئيسية</span>
+  </button>
+  <button class="tab-btn" onclick="navigate('week')">
+    <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg>
+    <span>الأسبوع</span>
+  </button>
+  <button class="tab-btn" onclick="navigate('recipes')">
+    <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+    <span>وصفاتي</span>
+  </button>
+  <button class="tab-btn" onclick="navigate('shop')">
+    <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1 1 0 0 0 21.88 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+    <span>التسوق</span>
+  </button>
+  <button class="tab-btn" onclick="navigate('profile')">
+    <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+    <span>حسابي</span>
+  </button>
+</nav>
+
+<script>
+// PWA Service Worker Registration
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW fail', err));
+  });
+}
+
+const DAYS = ['السبت', 'الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة'];
+const MARKETS = { m: 'القصّاب', v: 'سوق الخضار', g: 'البقالة', a: 'العطّار' };
+
+const RECIPES = [
+  {
+    id: 0,
+    name: 'تمن ومرق باميا عراقي',
+    desc: 'باميا عراقية ناعمة مع لحم غنم مسلوق ومحموس على نار هادئة حتى الاستواء التام مع رز العنبر.',
+    time: '75 دقيقة',
+    tag: 'عراقي أصيل',
+    author: 'شيف أم علي',
+    likes: '14.8K',
+    img: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=700&q=80',
+    ingredients: [
+      ['لحم غنم بعظمه', 120, 'غ', 'm', 2000],
+      ['باميا خضراء ناعمة', 120, 'غ', 'v', 700],
+      ['طماطم معصورة', 1.5, 'حبة', 'v', 400],
+      ['ثوم عراقي', 2, 'فص', 'v', 100],
+      ['معجون طماطم معلب', 20, 'غ', 'g', 150],
+      ['رز عنبر مشخاب', 90, 'غ', 'g', 300],
+      ['ملح وبهار لحم', 5, 'غ', 'a', 50]
+    ],
+    steps: [
+      {
+        action: 'سلق وتجهيز اللحم',
+        text: 'قطّع لحم الغنم واغسله جيداً، ثم اسلقه مع مطيبات (هيل وبصلة) حتى يقترب من النضج التام مع تصفية الزفرة.',
+        timer: 2400,
+        tip: 'احتفظ بمرق اللحم المصفى لاستخدامه كأساس للتشريب أو لإعطاء المرق كثافة ونكهة غنية.'
+      },
+      {
+        action: 'حمس الثوم والمعجون',
+        text: 'في قدر ساخن، ضع ملعقة دهن حر واحمس فصوص الثوم الكاملة ثم أضف معجون الطماطم وقلّبه لدقيقتين حتى تخرج نكهته العميقة.',
+        timer: 180,
+        tip: 'حمس المعجون بالسمن قبل إضافة عصير الطماطم يكسر حموضة المعجون ويعطي لوناً أحمر داكناً.'
+      },
+      {
+        action: 'إضافة الباميا والمرق',
+        text: 'أضف الباميا المقمّعة بدون فتح رأسها ثم اسكب عصير الطماطم ومرق اللحم المغلي واللحم، واتركها تغلي بقوة 10 دقائق.',
+        timer: 600,
+        tip: 'تجنّب تحريك الباميا بالملعقة بكثرة، اكتفِ بهزّ القدر بلطف حتى لا تنفرط حبات الباميا وتخرج مادتها اللزجة.'
+      },
+      {
+        action: 'التهدار وطبخ التمن',
+        text: 'اخفض النار جداً واترك المرق يتهدر 30 دقيقة، وفي هذا الوقت اطبخ رز العنبر المنقوع بالسمن والملح وقدّمهما معاً ساخنين.',
+        timer: 1800,
+        tip: 'يمكنك إضافة ملعقة صغيرة من ماء الحصرم أو عصير ليمونة لمنح المرق النكهة الحامضة المحبوبة.'
+      }
+    ]
+  },
+  {
+    id: 1,
+    name: 'قيمة نجفية أصلية',
+    desc: 'القيمة العراقية التراثية باللحم المهروس والحمص الدسم مع الدارسين ونومي بصرة المطحون.',
+    time: '90 دقيقة',
+    tag: 'شعبي تراثي',
+    author: 'أبو كرار النجفي',
+    likes: '22.3K',
+    img: 'https://images.unsplash.com/photo-1547496502-affa22d38842?auto=format&fit=crop&w=700&q=80',
+    ingredients: [
+      ['لحم هبر غنم أو بقر', 100, 'غ', 'm', 1800],
+      ['حمص مجروش مجفف', 60, 'غ', 'g', 180],
+      ['بصل مفروم ناعم', 1, 'حبة', 'v', 150],
+      ['معجون طماطم', 25, 'غ', 'g', 150],
+      ['نومي بصرة مطحون', 1, 'حبة', 'a', 120],
+      ['بهارات قيمة ودارسين', 6, 'غ', 'a', 80],
+      ['رز عنبر للتقديم', 90, 'غ', 'g', 300]
+    ],
+    steps: [
+      {
+        action: 'سلق الحمص واللحم',
+        text: 'انقع الحمص المجروش ليلة كاملة، ثم اسلقه مع قطع اللحم والماء الوفير حتى يذوب اللحم والحمص تماماً.',
+        timer: 3600,
+        tip: 'استخدم قدراً عميقاً لضمان عدم فوران الحمص وابقاء الماء كافياً لمرحلة الهرس.'
+      },
+      {
+        action: 'الدرك (الهرس الاحترافي)',
+        text: 'باستخدام المدكّة الخشبية أو الهرّاسة، اهرس الحمص واللحم جيداً حتى يصبح قوام اللحم متداخلاً على شكل خيوط ناعمة.',
+        timer: 600,
+        tip: 'سر قوام القيمة النجفية الأصيلة هو خيوط اللحم المتشابكة مع الحمص الناعم.'
+      },
+      {
+        action: 'حمس المعجون والتتبيل',
+        text: 'احمس البصل الناعم بزيت وفير حتى يذبل، أضف معجون الطماطم وحركه جيداً ثم اسكب خليط القيمة المهروس.',
+        timer: 300,
+        tip: 'أضف الدارسين (القرفة) ونومي بصرة في هذه المرحلة لتمتزج الروائح الزكية باللحم.'
+      },
+      {
+        action: 'التسبيك والتقديم',
+        text: 'اترك القيمة على نار هادئة جداً مع التحريك المستمر حتى تتماسك وتفرز زيتها على السطح، وقدّمها فوق التمن.',
+        timer: 1200,
+        tip: 'حرّك القعر باستمرار حتى لا تحترق، فالقيمة سريعة الالتصاق بسبب كثافتها.'
+      }
+    ]
+  },
+  {
+    id: 2,
+    name: 'كباب عراقي مشوي بالفرن',
+    desc: 'كباب لحم غنم مع اللية البغدادية ورشة سماق مع صمون حار وطماطم مشوية.',
+    time: '35 دقيقة',
+    tag: 'سريع وسهل',
+    author: 'عمار الحيدري',
+    likes: '19.5K',
+    img: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=700&q=80',
+    ingredients: [
+      ['لحم غنم مفروم مع لية (80/20)', 160, 'غ', 'm', 2800],
+      ['بصل مبروش مصفى من الماء', 1, 'حبة', 'v', 150],
+      ['بقدونس مفروم خشن', 15, 'غ', 'v', 60],
+      ['طماطم للشوي', 1, 'حبة', 'v', 250],
+      ['صمون حجري عراقي', 1, 'حبة', 'g', 250],
+      ['سماق وملح وبهار كباب', 5, 'غ', 'a', 50]
+    ],
+    steps: [
+      {
+        action: 'دعك وتتبيل اللحم',
+        text: 'ابرش البصل واعصره بيدك جيداً للتخلص من كل مائه، ثم اخلطه مع اللحم والملح وادعكه بكف يدك حتى يتجانس ويصبح لزجاً.',
+        timer: 300,
+        tip: 'التخلص من ماء البصل هو السر لعدم سقوط الكباب عن الشيش أو تفككه أثناء الشواء.'
+      },
+      {
+        action: 'التشكيل والسيخ',
+        text: 'بلل يدك بماء البصل البارد وشكل اللحم على أسياخ عريضة مع عمل ضغطات بأصابعك لتزيين الشيش.',
+        timer: 300,
+        tip: 'ضع الأسياخ في الثلاجة لمدة 15 دقيقة قبل الشوي لتتماسك دهون اللية.'
+      },
+      {
+        action: 'الشوي الحار',
+        text: 'اشوِ الأسياخ على شواية حامية جداً أو تحت شواية الفرن العلوية مع التقليب السريع كل دقيقة حتى يتحمر.',
+        timer: 600,
+        tip: 'ضعه فور خروجه في الصمون الحار ورش عليه السماق ليحتفظ بالعصارة اللذيذة.'
+      }
+    ]
+  },
+  {
+    id: 3,
+    name: 'مقلوبة دجاج وباذنجان',
+    desc: 'طبقات الباذنجان المقلي والبطاطا والدجاج المحمّر مغطاة برز عنبر مطبوخ بمرق التوابل الغني.',
+    time: '60 دقيقة',
+    tag: 'عائلي مميز',
+    author: 'أم فهد',
+    likes: '16.7K',
+    img: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=700&q=80',
+    ingredients: [
+      ['أفخاذ أو صدور دجاج', 150, 'غ', 'm', 1100],
+      ['باذنجان مقطع شرائح', 150, 'غ', 'v', 450],
+      ['بطاطا وبصل مقطع حلقات', 100, 'غ', 'v', 250],
+      ['طماطم مقطعة دوائر', 1, 'حبة', 'v', 300],
+      ['رز عنبر منقوع', 90, 'غ', 'g', 300],
+      ['بهارات مقلوبة وكاري وملح', 6, 'غ', 'a', 80]
+    ],
+    steps: [
+      {
+        action: 'سلق الدجاج وقلي الخضار',
+        text: 'اسلق الدجاج مع البهارات واحتفظ بالمرق. اقلِ شرائح الباذنجان والبطاطا حتى تصبح ذهبية ومقرمشة.',
+        timer: 1500,
+        tip: 'رش الملح على الباذنجان قبل القلي بنصف ساعة وجففه بمنديل ليمتص زيتاً أقل بكثير.'
+      },
+      {
+        action: 'ترتيب الطبقات في القدر',
+        text: 'ضع شرائح الطماطم أسفل القدر، ثم قطع الدجاج المحمر، ثم وزع طبقات الباذنجان والبطاطا بشكل دائري جذاب.',
+        timer: 300,
+        tip: 'ترتيب الطماطم في القاع يمنع التصاق الأرز ويعطي نكهة مكرملة شهية عند القلب.'
+      },
+      {
+        action: 'إضافة الرز والمرق',
+        text: 'اسكب الرز المنقوع فوق الخضار وسوّ سطحه، ثم اسكب مرق الدجاج المغلي حتى يغطي الأرز بارتفاع سنتيمتر واحد.',
+        timer: 300,
+        tip: 'ضع طبقاً صغيراً مقلوباً فوق الرز أثناء سكب المرق حتى لا تختل طبقات الخضار المرتبة.'
+      },
+      {
+        action: 'التهدير والقلب',
+        text: 'اترك القدر يغلي ثم اخفض النار تماماً لـ 25 دقيقة. ارفعه عن النار واتركه يرتاح 10 دقائق قبل القلبة في الصينية.',
+        timer: 1800,
+        tip: 'طرق قاع القدر برفق قبل رفع القدر يضمن نزول قالب المقلوبة متماسكاً وجميلاً.'
+      }
+    ]
+  }
+];
+
+let appState = {
+  tab: 'home',
+  subTab: 0,
+  servings: 2,
+  plan: [0, 1, 2, 3, null, null, null],
+  planServings: [2, 2, 2, 2, 2, 2, 2],
+  cartChecked: {},
+  deductFridge: true,
+  fridgeItems: ['بصل مفروم ناعم', 'ثوم عراقي', 'طماطم معصورة'],
+  cooking: null, // { recipeId, stepIndex }
+  activeDayForModal: null,
+  likedRecipes: [0, 2]
+};
+
+// LocalStorage Sync
+try {
+  const saved = localStorage.getItem('chef_bait_store');
+  if (saved) {
+    const parsed = JSON.parse(saved);
+    appState = { ...appState, ...parsed };
+  }
+} catch(e) {}
+
+function saveState() {
+  try {
+    localStorage.setItem('chef_bait_store', JSON.stringify({
+      servings: appState.servings,
+      plan: appState.plan,
+      planServings: appState.planServings,
+      cartChecked: appState.cartChecked,
+      deductFridge: appState.deductFridge,
+      fridgeItems: appState.fridgeItems,
+      likedRecipes: appState.likedRecipes
+    }));
+  } catch(e) {}
+}
+
+const $ = id => document.getElementById(id);
+
+function showToast(msg) {
+  const t = $('toast');
+  t.textContent = msg;
+  t.style.display = 'block';
+  setTimeout(() => t.style.display = 'none', 2400);
+}
+
+function navigate(tabName) {
+  appState.tab = tabName;
+  appState.cooking = null;
+  clearCookTimer();
+  renderApp();
+  window.scrollTo(0, 0);
+}
+
+function switchSubTab(idx) {
+  appState.subTab = idx;
+  $('subTab0').className = idx === 0 ? 'active' : '';
+  $('subTab1').className = idx === 1 ? 'active' : '';
+  renderApp();
+}
+
+function toggleLike(e, id) {
+  e.stopPropagation();
+  if (appState.likedRecipes.includes(id)) {
+    appState.likedRecipes = appState.likedRecipes.filter(x => x !== id);
+    showToast('تمت الإزالة من المفضلة');
+  } else {
+    appState.likedRecipes.push(id);
+    showToast('أُضيفت إلى المفضلة ❤️');
+  }
+  saveState();
+  renderApp();
+}
+
+function openAddRecipe() {
+  showToast('إضافة وصفة مخصصة - ستتاح قريباً في تحديث Plus!');
+}
+
+/* Modal for dish picking */
+function openDishPicker(dayIndex) {
+  appState.activeDayForModal = dayIndex;
+  $('modalTitle').textContent = 'اختر وجبة يوم ' + DAYS[dayIndex];
+  
+  let listHtml = `
+    <button class="modal-dish-item" onclick="setDayDish(null)" style="justify-content:center; color:#ff7675;">
+      <b>❌ بدون طبخ هذا اليوم (راحة / جاهز)</b>
+    </button>
+  `;
+  
+  RECIPES.forEach(r => {
+    listHtml += `
+      <div class="modal-dish-item" onclick="setDayDish(${r.id})">
+        <img class="modal-dish-img" src="${r.img}" alt="${r.name}">
+        <div style="flex:1">
+          <div style="font-weight:700;">${r.name}</div>
+          <div style="font-size:0.8rem; color:var(--text-muted);">${r.time} · ${r.tag}</div>
+        </div>
+      </div>
+    `;
+  });
+  
+  $('modalDishList').innerHTML = listHtml;
+  $('dishModal').classList.add('open');
+}
+
+function closeModal() {
+  $('dishModal').classList.remove('open');
+}
+
+function setDayDish(recipeId) {
+  const day = appState.activeDayForModal;
+  if (day !== null) {
+    appState.plan[day] = recipeId;
+    saveState();
+    closeModal();
+    renderApp();
+    showToast(recipeId !== null ? 'تم تعيين الوجبة ليوم ' + DAYS[day] : 'أصبح اليوم شاغراً');
+  }
+}
+
+function changeDayServings(dayIndex, delta) {
+  let val = (appState.planServings[dayIndex] || appState.servings) + delta;
+  if (val < 1) val = 1;
+  if (val > 25) val = 25;
+  appState.planServings[dayIndex] = val;
+  saveState();
+  renderApp();
+}
+
+function autoSuggestWeek() {
+  const ids = RECIPES.map(r => r.id);
+  appState.plan = DAYS.map((d, i) => ids[i % ids.length]);
+  saveState();
+  renderApp();
+  showToast('تم اقتراح خطة أسبوع شهية بنجاح ✨');
+}
+
+/* Ingredients aggregator */
+function getShoppingData() {
+  const map = {};
+  appState.plan.forEach((recipeId, dayIndex) => {
+    if (recipeId === null) return;
+    const r = RECIPES.find(x => x.id === recipeId);
+    if (!r) return;
+    const serv = appState.planServings[dayIndex] || appState.servings;
+    r.ingredients.forEach(item => {
+      const key = item[0] + '|' + item[2];
+      if (!map[key]) {
+        map[key] = { name: item[0], unit: item[2], market: item[3], qty: 0, price: 0 };
+      }
+      map[key].qty += item[1] * serv;
+      map[key].price += item[4] * serv;
+    });
+  });
+  return Object.values(map);
+}
+
+function formatQty(v, u) {
+  if (u === 'غ') {
+    return v >= 1000 ? (v / 1000).toFixed(1).replace('.0','') + ' كغم' : Math.round(v) + ' غ';
+  }
+  return Math.ceil(v) + ' ' + u;
+}
+
+function formatPrice(n) {
+  return (Math.round(n / 250) * 250).toLocaleString('en');
+}
+
+/* Cooking Timer Logic */
+let cookTimerId = null;
+let cookTimerRemaining = 0;
+let cookTimerEnd = 0;
+
+function clearCookTimer() {
+  if (cookTimerId) {
+    clearInterval(cookTimerId);
+    cookTimerId = null;
+  }
+  cookTimerRemaining = 0;
+}
+
+function formatClock(seconds) {
+  const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+  const s = (seconds % 60).toString().padStart(2, '0');
+  return `${m}:${s}`;
+}
+
+function toggleTimer(duration) {
+  const btn = $('timerBtn');
+  const clock = $('timerClock');
+  
+  if (cookTimerId) {
+    clearInterval(cookTimerId);
+    cookTimerId = null;
+    cookTimerRemaining = Math.max(0, Math.ceil((cookTimerEnd - Date.now()) / 1000));
+    btn.textContent = 'استئناف';
+    return;
+  }
+  
+  if (!cookTimerRemaining) cookTimerRemaining = duration;
+  cookTimerEnd = Date.now() + (cookTimerRemaining * 1000);
+  btn.textContent = 'إيقاف مؤقت';
+  
+  cookTimerId = setInterval(() => {
+    const left = Math.max(0, Math.ceil((cookTimerEnd - Date.now()) / 1000));
+    clock.textContent = formatClock(left);
+    if (left <= 0) {
+      clearInterval(cookTimerId);
+      cookTimerId = null;
+      cookTimerRemaining = 0;
+      btn.textContent = 'انتهى الوقت ✓';
+      beepSound();
+      showToast('انتهى مؤقت هذه الخطوة! ⏰');
+    }
+  }, 400);
+}
+
+function beepSound() {
+  try {
+    if (navigator.vibrate) navigator.vibrate([300, 150, 300, 150, 400]);
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    [0, 0.25, 0.5].forEach(t => {
+      const osc = ctx.createOscillator();
+      osc.connect(ctx.destination);
+      osc.frequency.value = 920;
+      osc.start(ctx.currentTime + t);
+      osc.stop(ctx.currentTime + t + 0.18);
+    });
+  } catch(e) {}
+}
+
+function startCooking(recipeId) {
+  appState.cooking = { recipeId, stepIndex: 0 };
+  clearCookTimer();
+  renderApp();
+  window.scrollTo(0, 0);
+  try { if (navigator.wakeLock) navigator.wakeLock.request('screen'); } catch(e) {}
+}
+
+function changeCookStep(delta) {
+  clearCookTimer();
+  const r = RECIPES.find(x => x.id === appState.cooking.recipeId);
+  const next = appState.cooking.stepIndex + delta;
+  if (next >= r.steps.length) {
+    appState.cooking = null;
+    showToast('ألف صحة وعافية! اكتملت الطبخة 🍲');
+    renderApp();
+    return;
+  }
+  appState.cooking.stepIndex = Math.max(0, next);
+  renderApp();
+  window.scrollTo(0, 0);
+}
+
+/* Views Rendering */
+function renderHome() {
+  const mainDish = RECIPES[0];
+  const isLiked = appState.likedRecipes.includes(mainDish.id);
+  
+  return `
+    <!-- Hero Editor's Choice Card -->
+    <div class="hero-card" onclick="startCooking(${mainDish.id})">
+      <div class="hero-img-box">
+        <img class="hero-img" src="${mainDish.img}" alt="${mainDish.name}">
+        <div class="hero-badges">
+          <span class="badge">⏱ ${mainDish.time}</span>
+          <span class="badge" style="background:rgba(255,90,54,0.85);">${mainDish.tag}</span>
+        </div>
+        <div class="like-badge ${isLiked ? 'liked' : ''}" onclick="toggleLike(event, ${mainDish.id})">
+          <span>${isLiked ? '♥' : '♡'}</span>
+          <span>${mainDish.likes}</span>
+        </div>
+      </div>
+      <div class="hero-info">
+        <div class="hero-title">${mainDish.name}</div>
+        <div style="font-size:0.86rem; color:var(--text-muted); line-height:1.6;">${mainDish.desc}</div>
+        <div class="author-bar">
+          <div class="author-avatar">${mainDish.author.charAt(0)}</div>
+          <div class="author-name">${mainDish.author}</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="dots-indicator">
+      <span class="dot active"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+
+    <!-- Section 1 -->
+    <div class="sec-head">
+      <div class="sec-title">أشهر الأطباق العراقية</div>
+      <a href="#" class="sec-link" onclick="navigate('week')">خطط لأسبوعك</a>
+    </div>
+    <div class="h-scroll">
+      ${RECIPES.map(r => `
+        <div class="card-sm" onclick="startCooking(${r.id})">
+          <img class="card-sm-img" src="${r.img}" alt="${r.name}">
+          <div class="card-sm-body">
+            <div class="card-sm-title">${r.name}</div>
+            <div class="card-sm-meta">
+              <span>⏱ ${r.time}</span>
+              <span style="color:var(--primary)">${r.tag}</span>
+            </div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+
+    <!-- Section 2 -->
+    <div class="sec-head" style="margin-top:28px;">
+      <div class="sec-title">أكلات سريعة في أقل من 35 دقيقة</div>
+    </div>
+    <div class="h-scroll">
+      ${RECIPES.filter(r => parseInt(r.time) <= 40).map(r => `
+        <div class="card-sm" onclick="startCooking(${r.id})">
+          <img class="card-sm-img" src="${r.img}" alt="${r.name}">
+          <div class="card-sm-body">
+            <div class="card-sm-title">${r.name}</div>
+            <div class="card-sm-meta">
+              <span>⏱ ${r.time}</span>
+              <span>♥ ${r.likes}</span>
+            </div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function renderWeek() {
+  const chosenCount = appState.plan.filter(x => x !== null).length;
+  return `
+    <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:16px;">
+      <div>
+        <h1 style="font-size:1.45rem; font-weight:800;">خطة وجبات الأسبوع</h1>
+        <p style="font-size:0.86rem; color:var(--text-muted);">حدد وجبة كل يوم لتوليد قائمة التسوق الذكية</p>
+      </div>
+      <button class="btn-secondary" onclick="autoSuggestWeek()" style="padding:6px 12px; font-size:0.82rem;">✨ اقتراح تلقائي</button>
+    </div>
+
+    ${DAYS.map((day, idx) => {
+      const recipeId = appState.plan[idx];
+      const recipe = recipeId !== null ? RECIPES.find(r => r.id === recipeId) : null;
+      const count = appState.planServings[idx] || appState.servings;
+      return `
+        <div class="day-plan-card">
+          <div class="day-name">${day}</div>
+          <button class="day-dish-btn ${recipe ? 'selected' : ''}" onclick="openDishPicker(${idx})">
+            <span>${recipe ? recipe.name : '+ اختر وجبة اليوم'}</span>
+            <span style="color:var(--text-muted); font-size:0.8rem;">${recipe ? '⏱ ' + recipe.time : 'فارغ'}</span>
+          </button>
+          <div class="people-stepper">
+            <button class="stepper-btn" onclick="changeDayServings(${idx}, -1)">−</button>
+            <span class="stepper-num">${count}</span>
+            <button class="stepper-btn" onclick="changeDayServings(${idx}, 1)">+</button>
+          </div>
+        </div>
+      `;
+    }).join('')}
+
+    <div style="margin-top:20px; display:flex; gap:12px;">
+      <button class="btn-primary" onclick="navigate('shop')">
+        🛒 عرض قائمة التسوق (${chosenCount} أيام محددة)
+      </button>
+    </div>
+  `;
+}
+
+function renderRecipes() {
+  const favs = RECIPES.filter(r => appState.likedRecipes.includes(r.id));
+  return `
+    <h1 style="font-size:1.45rem; font-weight:800; margin-bottom:18px;">وصفاتي</h1>
+    
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:28px;">
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:20px 16px; position:relative; min-height:160px; display:flex; flex-direction:column; justify-content:space-between;">
+        <span style="position:absolute; top:12px; left:12px; background:var(--primary); color:#fff; font-size:0.7rem; font-weight:700; padding:2px 8px; border-radius:999px;">جديد</span>
+        <div style="font-size:2rem;">🌐</div>
+        <div>
+          <div style="font-weight:700; font-size:1rem;">الوصفات المستوردة</div>
+          <div style="font-size:0.8rem; color:var(--text-muted);">0 وصفة مضافة</div>
+        </div>
+      </div>
+
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:20px 16px; min-height:160px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div style="font-size:2rem; color:var(--primary);">♥</div>
+        <div>
+          <div style="font-weight:700; font-size:1rem;">أطباقي المفضلة</div>
+          <div style="font-size:0.8rem; color:var(--text-muted);">${favs.length} وصفات محفوظة</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-title" style="margin-bottom:14px;">قائمتك المحفوظة</div>
+    ${favs.length ? favs.map(r => `
+      <div class="day-plan-card" style="cursor:pointer;" onclick="startCooking(${r.id})">
+        <img src="${r.img}" style="width:52px; height:52px; border-radius:10px; object-fit:cover;" alt="">
+        <div style="flex:1;">
+          <div style="font-weight:700;">${r.name}</div>
+          <div style="font-size:0.8rem; color:var(--text-muted);">${r.time} · ${r.tag}</div>
+        </div>
+        <button class="btn-secondary" style="padding:6px 14px; font-size:0.85rem; border-color:var(--primary); color:var(--primary);">ابدأ</button>
+      </div>
+    `).join('') : '<div style="text-align:center; color:var(--text-muted); padding:30px;">لم تقم بحفظ أي أكلة في المفضلة بعد. اضغط على رمز القلب ♡ في أي وصفة.</div>'}
+  `;
+}
+
+function renderShop() {
+  const rawItems = getShoppingData();
+  const activePlanCount = appState.plan.filter(x => x !== null).length;
+  
+  if (!rawItems.length) {
+    return `
+      <div style="text-align:center; padding:60px 20px;">
+        <div style="width:140px; height:140px; margin:0 auto 20px; background:var(--surface); border-radius:50%; display:grid; place-items:center; font-size:3.5rem;">
+          🛒
+        </div>
+        <h2 style="font-size:1.3rem; font-weight:700; margin-bottom:8px;">قائمة التسوق فارغة</h2>
+        <p style="color:var(--text-muted); font-size:0.9rem; max-width:320px; margin:0 auto 22px;">
+          اختر وجبات أسبوعك في تبويب الأسبوع لتتولّد مقادير مشترياتك مقسمة حسب السوق العراقي تلقائياً.
+        </p>
+        <button class="btn-primary" style="max-width:240px; margin:0 auto;" onclick="navigate('week')">
+          اختر وجبات الأسبوع
+        </button>
+      </div>
+    `;
+  }
+
+  // Filter items if deduct fridge is on
+  const items = appState.deductFridge 
+    ? rawItems.filter(x => !appState.fridgeItems.includes(x.name))
+    : rawItems;
+    
+  const totalCost = items.reduce((acc, curr) => acc + curr.price, 0);
+
+  // Group by Market
+  const grouped = {};
+  Object.keys(MARKETS).forEach(k => grouped[k] = []);
+  items.forEach(it => {
+    if (grouped[it.market]) grouped[it.market].push(it);
+  });
+
+  // Prepare whatsapp text
+  let waText = '🛒 قائمة مشتريات شيف البيت للأسبوع:\n';
+  Object.keys(MARKETS).forEach(k => {
+    if (grouped[k].length) {
+      waText += `\n📍 ${MARKETS[k]}:\n`;
+      grouped[k].forEach(i => {
+        waText += `- ${i.name}: ${formatQty(i.qty, i.unit)}\n`;
+      });
+    }
+  });
+  waText += `\n💰 التكلفة التقديرية: ≈ ${formatPrice(totalCost)} د.ع`;
+
+  return `
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+      <h1 style="font-size:1.45rem; font-weight:800;">قائمة التسوق</h1>
+      <span style="font-size:0.85rem; color:var(--primary);">${activePlanCount} وجبات مخططة</span>
+    </div>
+
+    <label style="display:flex; align-items:center; gap:10px; background:var(--surface); border:1px solid var(--border); padding:10px 14px; border-radius:var(--radius-md); font-size:0.88rem; margin-bottom:18px; cursor:pointer;">
+      <input type="checkbox" ${appState.deductFridge ? 'checked' : ''} onchange="appState.deductFridge=this.checked; saveState(); renderApp();">
+      <span>خصم المواد المتوفرة في ثلاجتي تلقائياً (بصل، ثوم، طماطم)</span>
+    </label>
+
+    ${Object.keys(MARKETS).map(marketKey => {
+      const list = grouped[marketKey];
+      if (!list.length) return '';
+      return `
+        <div class="shop-group">
+          <div class="shop-group-title">
+            <span>🏪</span>
+            <span>${MARKETS[marketKey]}</span>
+            <span style="font-size:0.78rem; color:var(--text-dim);">(${list.length} مواد)</span>
+          </div>
+          <ul class="shop-list">
+            ${list.map(it => {
+              const k = it.name + '|' + it.unit;
+              const isChecked = !!appState.cartChecked[k];
+              return `
+                <li class="shop-item">
+                  <label class="shop-check-label ${isChecked ? 'checked' : ''}">
+                    <input type="checkbox" ${isChecked ? 'checked' : ''} onchange="appState.cartChecked['${k}']=this.checked; saveState(); renderApp();">
+                    <span>${it.name}</span>
+                  </label>
+                  <span class="shop-qty">${formatQty(it.qty, it.unit)}</span>
+                </li>
+              `;
+            }).join('')}
+          </ul>
+        </div>
+      `;
+    }).join('')}
+
+    <div class="price-card">
+      <div style="color:var(--text-muted); font-size:0.85rem;">التكلفة التقديرية للمشتريات بالسوق</div>
+      <div class="price-value">≈ ${formatPrice(totalCost)} د.ع</div>
+    </div>
+
+    <a href="https://wa.me/?text=${encodeURIComponent(waText)}" target="_blank" style="text-decoration:none;">
+      <button class="btn-primary" style="background:#25D366;">
+        📲 إرسال القائمة كاملة عبر واتساب
+      </button>
+    </a>
+  `;
+}
+
+function renderProfile() {
+  return `
+    <h1 style="font-size:1.45rem; font-weight:800; margin-bottom:14px;">حسابي</h1>
+    
+    <div class="profile-header">
+      <div class="big-avatar">M</div>
+      <div>
+        <div class="user-name">محمد البدراني</div>
+        <div class="user-badge">عضو مجتمع شيف البيت</div>
+        <button class="edit-prof-btn">تعديل الملف الشخصي</button>
+      </div>
+    </div>
+
+    <!-- Plus Banner -->
+    <div class="plus-banner">
+      <span class="plus-tag">★ شيف البيت PLUS</span>
+      <h3 style="font-size:1.15rem; font-weight:700; margin:10px 0 4px; color:#fff;">استمتع بجميع الميزات مجاناً</h3>
+      <p style="font-size:0.85rem; color:#dcdde1; line-height:1.5;">اقتراح وصفات بذكاء اصطناعي من صورة ثلاجتك ومزامنة مع تطبيقات التوصيل.</p>
+      <button class="plus-btn" onclick="showToast('فترة تجريبية مفعلة لـ 7 أيام مجاناً!')">جرّب 7 أيام مجاناً</button>
+    </div>
+
+    <!-- System Settings -->
+    <div class="menu-group">
+      <div class="menu-group-title">إدارة الحساب</div>
+      <div class="menu-item">
+        <div class="menu-item-left"><span>🍽</span><span>تفضيلات الطعام والحمية</span></div>
+        <span style="color:var(--text-dim);">›</span>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-left"><span>🔄</span><span>استعادة المشتريات والاشتراك</span></div>
+        <span style="color:var(--text-dim);">›</span>
+      </div>
+    </div>
+
+    <div class="menu-group">
+      <div class="menu-group-title">إعدادات النظام</div>
+      <div class="menu-item">
+        <div class="menu-item-left"><span>🌐</span><span>اللغة (العربية)</span></div>
+        <span style="color:var(--text-dim);">›</span>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-left"><span>⚖</span><span>نظام القياس (الغرام / الكيلو)</span></div>
+        <span style="color:var(--text-dim);">›</span>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-left"><span>🔔</span><span>التنبيهات وتذكير الطبخ</span></div>
+        <span style="color:var(--text-dim);">›</span>
+      </div>
+    </div>
+  `;
+}
+
+function renderCookMode() {
+  const r = RECIPES.find(x => x.id === appState.cooking.recipeId);
+  const k = appState.cooking.stepIndex;
+  const step = r.steps[k];
+  const progressPercent = ((k + 1) / r.steps.length) * 100;
+
+  return `
+    <div class="cook-container">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <button class="btn-secondary" style="padding:6px 14px; font-size:0.82rem;" onclick="appState.cooking=null; clearCookTimer(); renderApp();">
+          ✕ إنهاء الطبخ
+        </button>
+        <span style="font-size:0.88rem; font-weight:700; color:var(--primary);">${r.name}</span>
+      </div>
+
+      <div class="cook-progress">
+        <div class="cook-progress-bar" style="width:${progressPercent}%"></div>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; font-size:0.85rem; color:var(--text-muted); margin-bottom:12px;">
+        <span>الخطوة ${k + 1} من ${r.steps.length}</span>
+        <span style="color:var(--yellow); font-weight:600;">${step.action}</span>
+      </div>
+
+      <div class="cook-step-box">
+        <div class="step-number">${k + 1}</div>
+        <div class="step-text">${step.text}</div>
+        
+        <div class="step-tip">
+          <b>نصيحة الشيف:</b> ${step.tip}
+        </div>
+
+        ${step.timer ? `
+          <div class="timer-container">
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:2px;">مؤقت هذه الخطوة</div>
+              <div class="timer-clock" id="timerClock">${formatClock(cookTimerRemaining || step.timer)}</div>
+            </div>
+            <button class="timer-btn" id="timerBtn" onclick="toggleTimer(${step.timer})">ابدأ المؤقت</button>
+          </div>
+        ` : ''}
+      </div>
+
+      <div style="display:flex; gap:12px;">
+        <button class="btn-secondary" style="flex:1;" onclick="changeCookStep(-1)" ${k === 0 ? 'disabled style="opacity:0.4"' : ''}>
+          السابق
+        </button>
+        <button class="btn-primary" style="flex:2;" onclick="changeCookStep(1)">
+          ${k === r.steps.length - 1 ? 'إتمام الطبق بنجاح ✓' : 'الخطوة التالية ›'}
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function renderApp() {
+  const main = $('mainView');
+  const header = $('appHeader');
+  const fab = $('fabBtn');
+  
+  if (appState.cooking) {
+    header.style.display = 'none';
+    fab.style.display = 'none';
+    main.innerHTML = renderCookMode();
+    return;
+  }
+
+  // Header display logic
+  if (appState.tab === 'home') {
+    header.style.display = 'flex';
+    fab.style.display = 'grid';
+  } else {
+    header.style.display = 'none';
+    fab.style.display = appState.tab === 'recipes' ? 'grid' : 'none';
+  }
+
+  // Render current tab
+  switch(appState.tab) {
+    case 'home':
+      main.innerHTML = renderHome();
+      break;
+    case 'week':
+      main.innerHTML = renderWeek();
+      break;
+    case 'recipes':
+      main.innerHTML = renderRecipes();
+      break;
+    case 'shop':
+      main.innerHTML = renderShop();
+      break;
+    case 'profile':
+      main.innerHTML = renderProfile();
+      break;
+  }
+
+  // Update Bottom Nav active state
+  const tabs = document.querySelectorAll('.tab-btn');
+  const tabNames = ['home', 'week', 'recipes', 'shop', 'profile'];
+  tabs.forEach((btn, i) => {
+    if (tabNames[i] === appState.tab) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+}
+
+// Initial render
+renderApp();
+</script>
+</body>
+</html>
